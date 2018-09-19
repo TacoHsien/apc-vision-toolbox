@@ -101,16 +101,22 @@ static void onMouse( int event, int x, int y, int, void* window_name )
 		pixel[0] = x;
 		pixel[1] = y;
 
-		float depth_in_meters = scale * image[INPUT_WIDTH*x + y];
+		float depth_in_meters = scale * image[x + y*INPUT_WIDTH];
 
-		cout << "depth_in_meter = " << depth_in_meters << "depth_in_mm = " << depth_in_meters*1000 << endl;
+		printf("depth_in_meter(m) = %5.4f || depth_in_meter(mm) = %5.4f \n ", depth_in_meters, depth_in_meters*1000);
+		//cout << "depth_in_meter = " << depth_in_meters << "depth_in_mm = " << depth_in_meters*1000 << endl;
+		
 		rs_deproject_pixel_to_point(point, &_depth_intrin, pixel, depth_in_meters);
 		cout << "x(pixel) = " << pixel[0] << endl;
 		cout << "y(pixel) = " << pixel[1] << endl;
 
-		cout << "x(m) = " << point[0] << "x(mm) = " << point[0]*1000 << endl;
-		cout << "y(m) = " << point[1] << "y(mm) = " << point[1]*1000 << endl;
-		cout << "z(m) = " << point[2] << "z(mm) = " << point[2]*1000 << endl;
+		printf("x(m) = %5.4f || x(mm) = %5.4f \n", point[0], point[0]*1000);
+		printf("y(m) = %5.4f || y(mm) = %5.4f \n", point[1], point[1]*1000);
+		printf("z(m) = %5.4f || z(mm) = %5.4f \n", point[2], point[2]*1000);
+
+//		cout << "x(m) = " << point[0] << "x(mm) = " << point[0]*1000 << endl;
+//		cout << "y(m) = " << point[1] << "y(mm) = " << point[1]*1000 << endl;
+//		cout << "z(m) = " << point[2] << "z(mm) = " << point[2]*1000 << endl;
 		//_loop = false;
 	}
 }
@@ -166,8 +172,8 @@ bool display_next_frame( )
 	imshow( WINDOW_DEPTH, depth8u );
 	cvWaitKey( 1 );
 
-	imshow( WINDOW_DEPTH2, depth16 );
-	cvWaitKey( 1 );
+//	imshow( WINDOW_DEPTH2, depth16 );
+//	cvWaitKey( 1 );
 
 	cv::cvtColor( rgb, rgb, cv::COLOR_BGR2RGB );
 	imshow( WINDOW_RGB, rgb );
